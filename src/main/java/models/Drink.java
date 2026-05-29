@@ -7,16 +7,24 @@ public class Drink  extends Food {
         this.size = size;
         this.flavor = flavor;
 
-        switch(size.toLowerCase()) {
-            case "small": price = 1.50; break;
-            case "medium": price = 2.00; break;
-            case "large": price = 2.50; break;
-            default: price = 0;
+        switch (size.toLowerCase()) {
+            case "small":
+                price = 1.50;
+                break;
+            case "medium":
+                price = 2.00;
+                break;
+            case "large":
+                price = 2.50;
+                break;
+            default:
+                price = 0;
         }
     }
 
+    @Override
     public String toString() {
-        return size + " " + flavor + " - $" + String.format("%.2f", price);
+        return "🥤 Drink (" + size + " " + flavor + ") - $" +
+                String.format("%.2f", getPrice());
     }
 }
-

@@ -29,20 +29,29 @@ public class Sandwich extends Food {
             if (topping.isExtra()) price += Pricing.getExtraCheesePrice(size);
         }
     }
-    public ArrayList<Topping> getToppings() {
-        return toppings;
-    }
+
+    @Override
     public String toString() {
-        String result = size + "\" " + breadType;
-        if (toasted) result += " (toasted)";
-        result += "\nToppings:\n";
+        StringBuilder sb = new StringBuilder();
+
+        sb.append("🥪 Sandwich (")
+                .append(size).append("\" ")
+                .append(breadType);
+
+        if (toasted) sb.append(", Toasted");
+
+        sb.append(") - $")
+                .append(String.format("%.2f", getPrice()))
+                .append("\n");
 
         for (Topping t : toppings) {
-            result += "  - " + t.toString() + "\n";
+            sb.append("   • ").append(t.getName());
+            if (t.isExtra()) sb.append(" (extra)");
+            sb.append("\n");
         }
 
-        result += String.format("Price: $%.2f", price);
-        return result;
+        return sb.toString();
     }
+
 }
 

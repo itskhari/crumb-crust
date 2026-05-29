@@ -8,8 +8,10 @@ public class Chips extends Food {
         this.price = 1.25;
     }
 
+    @Override
     public String toString() {
-        return type + " - $" + String.format("%.2f", price);
+        return "🍟 Chips (" + type + ") - $" +
+                String.format("%.2f", getPrice());
     }
 }
 

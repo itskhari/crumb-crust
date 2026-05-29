@@ -1,5 +1,6 @@
 package screens;
 
+import borders.UI;
 import models.Chips;
 import models.Order;
 import java.util.Scanner;
@@ -14,45 +15,44 @@ public class ChipsScreen {
     }
 
     public void show () {
+        UI.header("🍟 ADD CHIPS");
 
-        System.out.println("Can't forget the sides");
-        System.out.println("What kind of chips would you like?");
-        System.out.println("\t1. BBQ");
-        System.out.println("\t2. Sour Cream & Onion");
-        System.out.println("\t3. Nacho Cheese");
-        System.out.println("\t4. Salt & Vinegar");
-        System.out.println("\t5. Classic");
-        System.out.println("\t.0 No Chips");
-        System.out.print("Enter your choice here: ");
-        String chipChoice = sc.nextLine();
-
-        String flavor = "";
-        switch (chipChoice) {
-            case "1":
-                flavor = "BBQ";
-                break;
-            case "2":
-                flavor = "Sour Cream & Onion";
-                break;
-            case "3":
-                flavor = "Nacho Cheese";
-                break;
-            case "4":
-                flavor = "Salt & Vinegar";
-                break;
-            case "5":
-                flavor = "Classic";
-                break;
-            case "0":
-                System.out.println("No Chips selected");
-                return;
-            default:
-                System.out.println("invalid selection, please try again");
-        }
+        String flavor = chooseChips();
+        if (flavor == null) return;
 
         Chips chips = new Chips(flavor);
         order.addItem(chips);
 
-        System.out.println("Chips added to order!");
+        UI.success("\n🍟 Chips added to order!\n");
+    }
+
+    // chips
+    private String chooseChips() {
+
+        while (true) {
+            UI.sub("Choose Your Chips:");
+
+            UI.option(1, "BBQ", "🔥");
+            UI.option(2, "Sour Cream & Onion", "🧅");
+            UI.option(3, "Salt & Vinegar", "🧂");
+            UI.option(4, "Jalapeno", "🌶️");
+            UI.option(5, "Plain", "🍟");
+            UI.option(0, "Return to Order Menu", "↩️");
+
+            UI.prompt("Enter your choice: ");
+            String choice = sc.nextLine();
+
+            switch (choice) {
+                case "1": return "BBQ";
+                case "2": return "Sour Cream & Onion";
+                case "3": return "Salt & Vinegar";
+                case "4": return "Jalapeno";
+                case "5": return "Plain";
+                case "0": return null;
+                default:
+                    UI.warn("invalid selection, please try again.\n");
+            }
+        }
     }
 }
+

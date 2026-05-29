@@ -1,5 +1,6 @@
 package screens;
 
+import borders.UI;
 import models.Order;
 import receiptwriter.ReceiptWriter;
 
@@ -13,25 +14,41 @@ public class CheckoutScreen {
        this.sc = sc;
        this.order = order;
     }
-    public void show() {
-        System.out.println("Final steps of securing you meal!");
+    public boolean show() {
+        UI.header("💳 CHECKOUT");
+
+
+        UI.sub("Your Order:");
         System.out.println(order.toString());
 
-        System.out.println("\t1. Confirm Order");
-        System.out.println("\t0. Cancel");
-        System.out.print("Enter your choice here: ");
-        String choice = sc.nextLine();
+        double subtotal = order.getTotal();
+        double tax = subtotal * 0.07;
+        double total = subtotal + tax;
 
-        switch (choice) {
-            case "1":
-                ReceiptWriter.writeReceipt(order);
-                System.out.println("Order Confirmed!");
-                break;
-            case "0":
-                System.out.println("Order canceled, returning to home screen");
-                break;
-            default:
-                System.out.println("invalid selection, please review your order");
+        System.out.println(String.format("Tax: $%.2f", tax));
+        System.out.println(String.format("TOTAL: $%.2f", total));
+        UI.divider();
+
+        while (true) {
+            UI.option(1, "Confirm Order", "✅");
+            UI.option(2, "Forgot Something? Return to Menu", "❌");
+            UI.prompt("Enter your choice: ");
+
+            String choice = sc.nextLine();
+
+            switch (choice) {
+                case "1":
+                    UI.success("\n🎉 Order confirmed! Thank you for dining with us!\n");
+                    ReceiptWriter.writeReceipt(order);
+                    return true;
+                case "2":
+                    UI.warn("\nReturning to menu.\n");
+                    return false;
+
+                default:
+                    UI.warn("invalid selection, please try again.\n");
+                    }
+                }
+            }
         }
-    }
-}
+

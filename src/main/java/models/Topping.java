@@ -16,10 +16,6 @@ public class Topping {
         return name;
     }
 
-    public String getCategory() {
-        return category;
-    }
-
     public boolean isExtra() {
         return extra;
     }

@@ -1,6 +1,8 @@
 package screens;
 
+import borders.UI;
 import models.Order;
+import models.RandomOrder;
 
 import java.util.Scanner;
 
@@ -14,40 +16,60 @@ public class OrderScreen {
     }
 
     public void show () {
-         boolean run = true;
 
-         while (run) {
-             System.out.println("Just a few clicks away from your neal!");
-             System.out.println("\t1. Sandwiches");
-             System.out.println("\t2. Beverages");
-             System.out.println("\t3. Chips");
-             System.out.println("\t4. Checkout");
-             System.out.println("\t0. Return to Home Screen");
-             System.out.print("Enter your choice here: ");
-             String choice = sc.nextLine();
+        boolean run = true;
 
-             switch (choice) {
-                 case "1":
-                     SandwichScreen sandwichScreen = new SandwichScreen(sc, order);
-                     sandwichScreen.show();
-                     break;
-                 case "2":
-                     DrinkScreen drinkScreen = new DrinkScreen(sc, order);
-                     drinkScreen.show();
-                     break;
-                 case "3":
-                     ChipsScreen chipsScreen = new ChipsScreen(sc, order);
-                     chipsScreen.show();
-                 case "4":
-                     CheckoutScreen checkoutScreen = new CheckoutScreen(sc, order);
-                     checkoutScreen.show();
-                 case "0":
-                     System.out.println("Canceling Order, Returning to Home Screen");
-                     run = false;
-                     break;
-                 default:
-                     System.out.println("invalid selection, please try again");
-             }
-         }
-    }
-}
+        while (run) {
+
+            UI.header("🛒 ORDER MENU");
+
+            UI.option(1, "Add Sandwich", "🥪");
+            UI.option(2, "Add Drink", "🥤");
+            UI.option(3, "Add Chips", "🍟");
+            UI.option(4, "Checkout", "💳");
+            UI.option(5, "Surprise Me", "🎲");
+            UI.option(0, "Cancel Order", "❌");
+            UI.prompt("Enter your choice: ");
+            String choice = sc.nextLine();
+
+                    switch (choice) {
+
+                        case "1":
+                            new SandwichScreen(sc, order).show();
+                            break;
+
+                        case "2":
+                            new DrinkScreen(sc, order).show();
+                            break;
+
+                        case "3":
+                            new ChipsScreen(sc, order).show();
+                            break;
+
+                        case "4":
+                            boolean confirmed = new CheckoutScreen(sc, order).show();
+                            if (confirmed) {
+                                return;
+                            }
+                            break;
+
+                        case "5":
+                            Order randomOrder = RandomOrder.generateRandomOrder();
+                            boolean confirm = new CheckoutScreen(sc, randomOrder).show();
+
+                            if (confirm) {
+                                return;
+                            }
+                            break;
+
+                        case "0":
+                            UI.warn("\nOrder canceled. Returning to Home.\n");
+                            run = false;
+                            break;
+
+                        default:
+                            UI.warn("\nInvalid selection, please try again.\n");
+                    }
+                }
+            }
+        }

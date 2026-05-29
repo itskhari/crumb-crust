@@ -1,7 +1,6 @@
 package com.pluralsight;
 
 import screens.HomeScreen;
-
 import java.util.Scanner;
 
 public class POS {
@@ -12,7 +11,7 @@ public class POS {
         home.show();
 
         sc.close();
-        System.out.println("end");
+        System.out.println("Program has ended");
     }
 
 }
